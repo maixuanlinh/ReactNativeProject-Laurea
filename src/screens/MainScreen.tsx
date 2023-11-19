@@ -1,16 +1,20 @@
-// src/screens/MainScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
 
 const MainScreen = () => {
-  const [task, setTask] = useState<string>(''); // task is of type string
-  const [tasks, setTasks] = useState<string[]>([]); // tasks is an array of strings
+  const [task, setTask] = useState<string>('');
+  const [tasks, setTasks] = useState<string[]>([]);
 
   const addTask = () => {
     if (task.trim() !== '') {
       setTasks([...tasks, task]);
       setTask('');
     }
+  };
+
+  const removeTask = (index: number) => {
+    const newTasks = tasks.filter((_, taskIndex) => taskIndex !== index);
+    setTasks(newTasks);
   };
 
   return (
@@ -27,7 +31,16 @@ const MainScreen = () => {
       </View>
       <FlatList
         data={tasks}
-        renderItem={({ item }) => <Text style={styles.task}>{item}</Text>}
+        renderItem={({ item, index }) => (
+          <View style={styles.taskItem}>
+            <Text>{item}</Text>
+            <Button 
+              title="Remove" 
+              onPress={() => removeTask(index)} 
+              color="#ff6347" 
+            />
+          </View>
+        )}
         keyExtractor={(item, index) => index.toString()}
       />
     </View>
@@ -54,7 +67,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 8,
   },
-  task: {
+  taskItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 10,
     marginTop: 5,
     backgroundColor: '#f0f0f0',
