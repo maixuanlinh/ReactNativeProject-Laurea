@@ -19,8 +19,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.buttonContainer}>
         <Button
           title="Go to The To-Do List App"
-          onPress={() => navigation.navigate('SignIn')}
-        />
+          onPress={() => navigation.navigate('MainScreen')}        />
       </View>
 
     </View>
